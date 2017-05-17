@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import Playlists from '../components/Playlists'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
@@ -10,9 +11,9 @@ class Template extends Component {
         return (
             <MuiThemeProvider>
                 <div>
-                    <main>
+
                         {this.props.children}
-                    </main>
+
                 </div>
             </MuiThemeProvider>
         )

@@ -1,5 +1,10 @@
 import React, {Component} from 'react'
-import {featured, PlaylistTracks} from '../spotify/spotify'
+import {getUserPlaylists} from '../spotify/spotify'
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
+
+
+const playlist= [];
 
 class Home extends Component {
 
@@ -8,32 +13,42 @@ class Home extends Component {
         this.state = {
             token: undefined,
             message: undefined
+
         }
 
     }
 
 
+    //let user pick playlist
+    //then get tracks of playlists
+
     componentWillMount() {
+        //get token
         const url = window.location.href
         const token = /access_token=(.*)/g.exec(url)[1]
         this.state.token = token
-        featured(token).then((response) => {
-            var playlists = response.body.items.map(items => items.id)
-            console.log(playlists)
-            PlaylistTracks(token, playlists).then((response) => {
-                    for (let i = 0; i < 15; i++) {
-                    console.log(response.body.items[i].track.name)
-                }})
-            })
+        this.playlistFetch(token);
+    }
+
+    playlistFetch(token) {
+        //get user playlists
+        getUserPlaylists(token).then((response) => {
+            let res = response.body.items
+            playlist.push(res.map((item) => <MenuItem key={item.id} primaryText={item.name} />))
+
+        })
 
     }
+
+
         render()
         {
 
             return (
                 <div>
-                    <iframe src ="https://open.spotify.com/embed?uri=spotify:user:abimorris:playlist:4HfqVe6wyIY7pWiU8RMFy8&view=list" width="300" height="380" frameBorder="0" allowTransparency="true"></iframe>
-
+            <SelectField>
+                {playlist}
+            </SelectField>
                 </div>
             )
         }
