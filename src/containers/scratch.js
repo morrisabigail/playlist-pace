@@ -1,10 +1,15 @@
    //let user pick playlist
-
-
-
-            this.audioFeaturesFetch(token, tracks)
-    //     })
-    //
+    //convert height to inches
+   height
+   weight
+   steps =
+   5280*12*Total_Miles_Walked/Total_Steps_Taken
+   //
+   //          this.audioFeaturesFetch(token, tracks)
+   //  //     })
+   //  // <CardHeader
+   // title={trackTempo}
+   //     />
     // }
     //
     // audioFeaturesFetch(token, tracks) {
@@ -17,12 +22,16 @@
     //
     //     })
     //
+   //          <CardHeader
+   // title={getAudioFeatures(this.props.token, item.id).then(response => {
+   //     response.body.audio_features.map(item => item.tempo)}
+   // )}
     // }
    //       //get user playlists
    // getPlaylistTracks(token, playlist).then((response) => {
    //     let res = response.body.items
    //     //console.log(res)
-   //     tracks.push(res.map(item => item.track.id).join(','))
+   //
    //
    //     trackNames.push(res.map(item => <ListItem primaryText={item.track.name}/>))
    //

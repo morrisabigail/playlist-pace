@@ -23,8 +23,8 @@ class Playlist extends Component {
 
     }
 
-    menuItems = (playlists) => {
-        return playlists.map(item =>
+    menuItems = () => {
+        return this.state.playlists.map(item =>
             <MenuItem primaryText={item.name}
                       key={item.id}
                       value={item.id}
@@ -33,14 +33,11 @@ class Playlist extends Component {
     }
 
     handleChange(event, index, value) {
-        //TODO state is one update behind user must click twice to initialize
         this.setState({selectedPlaylist: value})
-        console.log(this.state.selectedPlaylist)
     }
 
 
     render() {
-        console.log('selected', this.state.selectedPlaylist)
         return <div>
             <SelectField
                 floatingLabelText='Select a Playlist'
@@ -48,7 +45,7 @@ class Playlist extends Component {
                 onChange={this.handleChange}
                 maxHeight={200}
             >
-                {this.menuItems(this.state.playlists)}
+                {this.menuItems()}
             </SelectField>
             {this.state.selectedPlaylist
                 ? <Tracks token={this.props.token} selected={this.state.selectedPlaylist}/>
