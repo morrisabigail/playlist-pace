@@ -1,7 +1,10 @@
    //let user pick playlist
-    //convert height to inches
+    //convert height to inches (feet x12 + inches)
    height
-   weight
+   stridelength= multiple height in inches by 0.413
+   height * (.413) = inches per stride / inches per foot (12) = feet per stride
+   63 inches x 0.413 = 26.019 inches per stride. 26.019 inches/12 inches per foot = 2.16825 feet per stride.)
+   5280 / feet per stride
    steps =
    5280*12*Total_Miles_Walked/Total_Steps_Taken
    //
