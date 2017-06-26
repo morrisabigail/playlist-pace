@@ -2,6 +2,16 @@ import React, {Component} from "react";
 import {getTracksAndTempo} from "../Auth/Token";
 import {Card, CardHeader, CardTitle} from "material-ui/Card";
 
+const cardStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    margin: '20px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: '75%'
+}
+
+
 class Tracks extends Component {
     constructor(props) {
         super(props)
@@ -10,15 +20,26 @@ class Tracks extends Component {
     }
 
     componentWillMount() {
-        console.log('this has been called')
         console.log(this.props.selected, 'selected')
-        this.displayTracks(this.props.token, this.props.selected)
     }
 
-    displayTracks = (token, selected) => {
+    findPace = (tempo) => {
+        let pace;
+        let seconds = 1500-( tempo * 6)
+        let minutes = seconds / 60
+           let x = (minutes*10)%10
+        if (x >= 6) {
+            pace = (x % 60).toFixed(2);
+        } else pace = minutes.toFixed(2);
+        pace.toString();
+        return pace.replace('.',':')
+    }
+
+
+    displayTracks = () => {
+        const {token, selected} = this.props
         getTracksAndTempo(token, selected).then(response => {
             const {tracks, tempos} = response
-            console.log(response)
             this.setState({tracks, tempos})
         })
     }
@@ -30,12 +51,12 @@ class Tracks extends Component {
         //todo map on tempo const
         return tempos
             ? tempos.map((tempo, i) => {
-                console.log(tempo)
+            tempo = Math.round(tempo)
                 return <Card
-                    key={tracks[i].id}>
-                    <CardHeader title={tempo}/>)
+                    style={cardStyle}
+                    key={i}>
+                    <CardHeader title={tempo +" BPM " + " git pace " + this.findPace(tempo)}/>)
                     <CardTitle
-                        key={tracks[i].id}
                         subtitle={tracks[i].artists.map(artist => `${artist.name} `)}
                         title={tracks[i].name}
                     />))
@@ -44,7 +65,11 @@ class Tracks extends Component {
             : null
     }
 
+
+
     render() {
+        this.displayTracks()
+
 
         return <div>
             {this.makeCard()}

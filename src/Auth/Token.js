@@ -21,11 +21,10 @@ export const getAudioFeatures = (token, tracks) => {
 const grabTempo = response => response.body.audio_features.map(item => item.tempo)
 
 //todo merge by id
-/*tracks.map(track => {
-const tempo = tempos.audio_features.find(tempo=> tempo.id ==== track.id).
-return Object.assign({}, track, {tempo}}
-*/
-const combineTracksAndTempo = tracks => tempos => ({tracks, tempos})
+// tracks.map(track => {
+// const tempo = tempos.audio_features.find(tempo=> tempo.id ==== track.id).
+// return Object.assign({}, track, {tempo}}
+ const combineTracksAndTempo = tracks => tempos => ({tracks, tempos})
 
 
 const getTempo = token => tracks => {

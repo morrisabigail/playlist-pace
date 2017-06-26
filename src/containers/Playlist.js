@@ -23,6 +23,7 @@ class Playlist extends Component {
 
     }
 
+
     menuItems = () => {
         return this.state.playlists.map(item =>
             <MenuItem primaryText={item.name}
@@ -32,8 +33,11 @@ class Playlist extends Component {
 
     }
 
+
+
     handleChange(event, index, value) {
-        this.setState({selectedPlaylist: value})
+        // callback just checking to make sure state is rerendering
+        this.setState({selectedPlaylist: value});
     }
 
 
@@ -49,7 +53,7 @@ class Playlist extends Component {
             </SelectField>
             {this.state.selectedPlaylist
                 ? <Tracks token={this.props.token} selected={this.state.selectedPlaylist}/>
-                : <h2>No Tracks Selected</h2>
+                : null
             }
 
         </div>
