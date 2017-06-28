@@ -33,8 +33,6 @@ class Playlist extends Component {
 
     }
 
-
-
     handleChange(event, index, value) {
         // callback just checking to make sure state is rerendering
         this.setState({selectedPlaylist: value});

@@ -1,16 +1,22 @@
 import React, {Component} from "react";
 import {getTracksAndTempo} from "../Auth/Token";
 import {Card, CardHeader, CardTitle} from "material-ui/Card";
+import {GridList,GridTile} from 'material-ui/GridList';
 
-const cardStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    margin: '20px',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    width: '75%'
-}
 
+const styles = {
+    root: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'space-around',
+    },
+    gridList: {
+        width: 500,
+        height: 450,
+        overflowY: 'auto',
+    },
+};
+//todo css the cards
 
 class Tracks extends Component {
     constructor(props) {
@@ -19,48 +25,40 @@ class Tracks extends Component {
         this.makeCard = this.makeCard.bind(this)
     }
 
-    componentWillMount() {
-        console.log(this.props.selected, 'selected')
-    }
-
     findPace = (tempo) => {
-        let pace;
-        let seconds = 1500-( tempo * 6)
+        let seconds = 1500-(tempo * 6)
         let minutes = seconds / 60
-           let x = (minutes*10)%10
-        if (x >= 6) {
-            pace = (x % 60).toFixed(2);
-        } else pace = minutes.toFixed(2);
-        pace.toString();
-        return pace.replace('.',':')
+        //get fraction of minutes to convert to seconds
+        let y = Math.round((((minutes*10)%10) *.1) *60);
+        let x = Math.floor(minutes);
+        let pace = (x+":"+y)
+        return pace
     }
 
 
     displayTracks = () => {
         const {token, selected} = this.props
         getTracksAndTempo(token, selected).then(response => {
-            const {tracks, tempos} = response
+            console.log(response.tracks[0].album.images[0].url)
+           const {tracks, tempos} = response
             this.setState({tracks, tempos})
         })
     }
 
     makeCard = () => {
+        this.displayTracks()
+        //todo : reduce amt of calls
         const {tempos, tracks} = this.state
-
-        //todo add service call to get all track tempos and save to const
-        //todo map on tempo const
         return tempos
             ? tempos.map((tempo, i) => {
             tempo = Math.round(tempo)
-                return <Card
-                    style={cardStyle}
-                    key={i}>
-                    <CardHeader title={tempo +" BPM " + " git pace " + this.findPace(tempo)}/>)
-                    <CardTitle
-                        subtitle={tracks[i].artists.map(artist => `${artist.name} `)}
-                        title={tracks[i].name}
-                    />))
-                </Card>
+                return <GridTile
+                            key={i}
+                            children={tracks[i].album.images[0].url}
+                            title={tempo +" BPM " + " pace " + this.findPace(tempo)}
+                            subtitle={tracks[i].name}
+                           >
+                        </GridTile>
             })
             : null
     }
@@ -68,12 +66,12 @@ class Tracks extends Component {
 
 
     render() {
-        this.displayTracks()
 
-
-        return <div>
+        return <div style={styles.root}>
+            <GridList
+                style={styles.gridList}>
             {this.makeCard()}
-
+            </GridList>
         </div>
     }
 }
